@@ -1,0 +1,10 @@
+reference/
+web/tags/*.csv
+!web/tags/.gitkeep
+HANDOFF.md
+__pycache__/
+*.pyc
+*.tmp
+.DS_Store
+Thumbs.db
+node_modules/

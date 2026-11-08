@@ -1,0 +1,16 @@
+[project]
+name = "comfyui-prompt-atelier"
+version = "0.1.0"
+description = "ComfyUI 提示词工坊：Danbooru 标签、LoRA、embedding 补全与提示词片段库"
+license = { file = "LICENSE" }
+# aiohttp 由 ComfyUI 自带，无需额外安装依赖。
+dependencies = []
+
+[project.urls]
+Repository = "https://github.com/BlackMesa79/ComfyUI-Prompt-Atelier"
+
+[tool.comfy]
+# 在 Comfy Registry 注册发布者后填写真实 ID，再发布到 Registry。
+PublisherId = ""
+DisplayName = "Prompt Atelier"
+Icon = ""
