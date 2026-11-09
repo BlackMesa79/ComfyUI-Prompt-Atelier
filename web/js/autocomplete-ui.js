@@ -335,7 +335,13 @@ function tagSegment(text, end) {
     while (replaceEnd < text.length && !isDelimiter(text, replaceEnd)) replaceEnd++;
     const raw = text.slice(start, end);
     start += raw.length - raw.trimStart().length;
-    replaceEnd = end + text.slice(end, replaceEnd).trimEnd().length;
+    const afterInToken = text.slice(end, replaceEnd);
+    const charAfterCursor = text[end] ?? "";
+    // 光标紧接空白（词间）时才向右延伸替换范围；
+    // 光标紧贴非空白字符说明光标停在已有词之前，保留后方内容不替换。
+    replaceEnd = /\s/.test(charAfterCursor) || charAfterCursor === ""
+        ? end + afterInToken.trimEnd().length
+        : end;
     return { start, replaceEnd, query: raw.trim().replace(/\\([()])/g, "$1") };
 }
 
@@ -438,7 +444,7 @@ export class TagAutoComplete {
             if (document.activeElement === this.el && this.el.selectionStart !== this.el.selectionEnd) this._hide();
         });
         on(this.el, "input", () => { if (!this.confirming) this._schedule(); });
-        on(this.el, "click", () => this._schedule());
+        on(this.el, "click", () => { if (!this.dropdown.hidden) this._schedule(); });
         on(this.el, "blur", () => this._hide());
         on(this.el, "compositionstart", () => { this.composing = true; this._hide(); });
         on(this.el, "compositionend", () => { this.composing = false; this._schedule(); });
